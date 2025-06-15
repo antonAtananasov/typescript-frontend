@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<header></header>
+
+<body>
+    <form id="post-form" method="POST" action="http://localhost:3000/users">
+        <input placeholder="name" name="name">
+        <input placeholder="age" name="age">
+        <input placeholder="favoriteColor" name="favoriteColor">
+        <button>Create</button>
+    </form>
+    <br>
+    <form id="get-form" method="GET" action="http://localhost:3000/users">
+        <input placeholder="name" name="name">
+        <input placeholder="age" name="age">
+        <input placeholder="favoriteColor" name="favoriteColor">
+        <button>Get</button>
+    </form>
+    <br>
+    <form id="delete-form">
+        <input placeholder="name" name="name">
+        <button onclick="deleteUser()" type="button">Delete</button>
+        <script>
+            function deleteUser() {
+                const form = document.getElementById("delete-form")
+                const input = form.getElementsByTagName("input")[0]
+                const userName = input.value
+
+                const url = new URL("http://localhost:3000/users")
+                url.searchParams.append("name", userName)
+
+                fetch(url.toString(), {
+                    method: "DELETE"
+                })
+            }
+
+        </script>
+    </form>
+    <br>
+    <form id="update-form">
+        <input placeholder="name" name="name">
+        <input placeholder="newName" name="newName">
+        <input placeholder="age" name="age">
+        <input placeholder="favoriteColor" name="favoriteColor">
+        <button onclick="updateUser()" type="button">Update</button>
+        <script>
+            function updateUser() {
+                const form = document.getElementById("update-form")
+                const inputs = form.getElementsByTagName("input")
+                
+                const name = inputs.find(input => input.name = "name")
+                const newName = inputs.find(input => input.name = "newName")
+                const age = inputs.find(input => input.name = "age")
+                const favoriteColor = inputs.find(input => input.name = "favoriteColor")
+
+                const data = new FormData()
+                data.searchParams.append("name", name)
+                data.searchParams.append("newName", newName)
+                data.searchParams.append("age", age)
+                data.searchParams.append("favoriteColor", favoriteColor)
+
+                fetch("http://localhost:3000/users", {
+                    method: "PUT", 
+                    body: data
+                })
+            }
+
+        </script>
+    </form>
+</body>
+
+</html>

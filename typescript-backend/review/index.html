@@ -1,0 +1,49 @@
+<!-- Основна структура на HTML файла -->
+<!DOCTYPE html>
+<html>
+    <!-- head съдържа метаданни за страницата - иконки, заглавие, стилове, скриптове, и неща, които трябва да бъдат заредени първи -->
+    <head></head>
+    <!-- body съдържа визуалната част на сайта -->
+    <body>
+        <!-- можем да използваме формуляри за изпращане на GET и POST заявки -->
+        <!-- посочваме име на всеки input, метод на формуляра, и action с адреса на заявката -->
+        <!-- бутоните по подразбиране активират действието на формуляра и прикачват данните от полетата за писане -->
+         <form id="get-form" method="get" action="http://localhost:3000/smartphones">
+            <input name="manufacturer" placeholder="Manufacturer / Brand">
+            <input name="batteryCapacity" placeholder="batteryCapacity (mAh)">
+            <input name="androidName" placeholder="Android version name">
+            <button>Get</button>
+         </form>
+        <br>
+        <!-- за останалите HTTP методи, е необходимо сами да сглобим заявка чрез fetch -->
+        <!-- използваме формуляр само за да групираме контролите на интерфейса - те няма да се нуждаят от метод и действие -->
+        <!-- трябва да премайнем действието по подразбиране на бутоните чрез type="button" и след това да им зададем js за изпълнение при натискане -->
+        <!-- можем да използваме script таг за да пишем js между html и да създадем функция за бутона -->
+        <!-- функцията ще трябва да извлече необходимите данни от html -->
+        <!-- функцията ще използва fetch, на който трябва да се посочи адреса за заявката, и ако е необходимо, тяло със съдържание -->
+        <form id="post-form">
+            <input name="manufacturer" placeholder="Manufacturer / Brand">
+            <input name="batteryCapacity" placeholder="batteryCapacity (mAh)">
+            <input name="androidName" placeholder="Android version name">
+            <button type="button" onclick="createPhone()">Create</button>
+            <script>
+                function createPhone(){
+                    const createForm = document.getElementById("post-form")
+                    const [manufacturerInput, batteryCapacityInput, androidNameInput] = createForm.getElementsByTagName("input")
+                    
+                    const phone = {
+                        manufacturer: manufacturerInput.value,
+                        batteryCapacity: batteryCapacityInput,
+                        androidName: androidNameInput
+                    }
+
+                    fetch("http://localhost:3000/smartphones",{
+                        method:"POST",
+                        body: JSON.stringify(phone),
+                        headers: { "Content-Type": "application/json" }
+                    })
+                }
+            </script>
+        </form>
+    </body>
+</html>
